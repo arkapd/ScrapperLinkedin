@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allJobs = [];
 
-    // Fetch Jobs
-    fetch('/api/jobs')
+    // Fetch Jobs (Static)
+    fetch('jobs.json')
         .then(res => res.json())
         .then(data => {
             allJobs = data;
