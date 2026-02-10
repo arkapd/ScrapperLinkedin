@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board | Operations & More</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="glass-container">
+        <header>
+            <h1>SSODL JOB Board</h1>
+            <p>Job Opportunities for Batch 25-27</p>
+        </header>
+
+        <div class="controls">
+            <!-- Modified filters as requested -->
+            <select id="roleFilter">
+                <option value="">All Roles</option>
+                <option value="Operations">Operations</option>
+                <option value="Finance">Finance</option>
+                <option value="HR">HR</option>
+                <option value="IT">Developer</option>
+                <option value="Supply Chain">Supply Chain</option>
+                <option value="Data Science">Data Science</option>
+            </select>
+
+            <select id="locationFilter">
+                <option value="">All Locations</option>
+                <option value="Pune">Pune</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Delhi">Delhi/NCR</option>
+            </select>
+
+            <!-- Experience Filter Removed - Defaulting to Fresher -->
+            <div class="static-filter">Experience: <strong>Fresher</strong></div>
+        </div>
+
+        <div id="jobList" class="job-list">
+            <div class="loading">Loading jobs...</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+node_modules/
+user_data/
+.env
+page_dump.html
+npm-debug.log
+.DS_Store
+trigger.txt
