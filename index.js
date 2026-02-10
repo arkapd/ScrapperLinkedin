@@ -227,6 +227,12 @@ async function main() {
                         const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
                         const phoneRegex = /(?:\+91[\-\s]?)?[6789]\d{9}/g;
                         const emails = textContent.match(emailRegex);
+
+                        // GMAIL FILTER: Exclude posts with @gmail.com
+                        if (emails && emails.some(e => e.toLowerCase().includes('@gmail.com'))) {
+                            continue;
+                        }
+
                         const phones = textContent.match(phoneRegex);
                         const hasContact = emails || phones;
                         const contactInfo = [...(emails || []), ...(phones || [])].join(', ');
