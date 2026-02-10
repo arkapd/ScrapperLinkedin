@@ -286,8 +286,10 @@ async function main() {
     }
 
     console.log(`\nScraping Cycle Complete. Total Jobs: ${localJobs.length}`);
-    // Keep browser open for a bit
-    await new Promise(r => setTimeout(r, 60000));
+    console.log('Exiting in 15 seconds to allow automation script to proceed...');
+    // Keep browser open briefly then exit
+    await new Promise(r => setTimeout(r, 15000));
+    process.exit(0);
 }
 
 function isFresherRelevant(text) {

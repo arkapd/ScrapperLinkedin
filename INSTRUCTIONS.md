@@ -80,3 +80,34 @@ The **Live Website** will only show the jobs that were in `jobs.json` when you l
      git push
      ```
   3. The live site will update automatically after a minute.
+
+---
+
+## 🤖 6. How to Automate (Every 12 Hours)
+I have created a script `automate.bat` that runs the scraper and pushes the data to GitHub automatically.
+
+### Step 1: Test the Script
+1. Double-click `automate.bat` in this folder.
+2. It should open a terminal, run the scraper, and (if new jobs are found) push them to GitHub.
+
+### Step 2: Schedule it with Windows Task Scheduler
+To make it run every 12 hours automatically:
+
+1. Press `Win + R`, type `taskschd.msc` and hit Enter.
+2. Click **Create Basic Task** on the right.
+3. **Name**: "LinkedIn Scraper Auto".
+4. **Trigger**: Select **Daily**.
+5. **Start**: Set a time (e.g., 9:00 AM). Set "Recur every: 1 days".
+6. **Action**: Select **Start a program**.
+7. **Program/script**: Browse and select the `automate.bat` file in this folder.
+   - **IMPORTANT**: In "Start in (optional)", paste the full path to this folder (e.g., `C:\Users\arkad\.gemini\antigravity\scratch\linkedin_scraper`).
+8. Finish.
+
+**To run every 12 hours:**
+1. Find your task in the list, right-click -> **Properties**.
+2. Go to **Triggers** tab -> Edit.
+3. Check **Repeat task every**: Select `12 hours` (or type it).
+4. set **for a duration of**: `Indefinitely`.
+5. Click OK.
+
+Now your computer will automatically scrape and update the website twice a day! ensure your computer is on and connected to internet.
