@@ -24,7 +24,7 @@ if %errorlevel% neq 0 (
 :: 3. Push to GitHub
 echo.
 echo [3/3] Publishing to GitHub...
-git add website/jobs.json
+git add jobs.json
 git commit -m "Auto-update jobs: %DATE% %TIME%"
 git push origin main
 

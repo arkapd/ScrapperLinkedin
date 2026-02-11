@@ -5,11 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Web Platform Data Store
-const WEBSITE_DIR = './website';
-if (!fs.existsSync(WEBSITE_DIR)) {
-    fs.mkdirSync(WEBSITE_DIR);
-}
-const JOBS_FILE = path.join(WEBSITE_DIR, 'jobs.json');
+const JOBS_FILE = path.join(__dirname, 'jobs.json');
 
 // Configuration
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;

@@ -9,10 +9,12 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'website')));
+// Serve static files from root directory
+app.use(express.static('.'));
 
+// API Endpoint (Legacy support, but also useful)
 app.get('/api/jobs', (req, res) => {
-    const jobsFile = path.join(__dirname, 'website', 'jobs.json');
+    const jobsFile = path.join(__dirname, 'jobs.json');
     if (fs.existsSync(jobsFile)) {
         try {
             const jobs = JSON.parse(fs.readFileSync(jobsFile, 'utf8'));

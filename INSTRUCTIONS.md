@@ -61,12 +61,10 @@ You can host this website so anyone can view it. Since we updated the code to be
    - **Source**: Deploy from a branch
    - **Branch**: Select `main` -> `/ (root)`
    - Click **Save**.
-4. Wait about 1-2 minutes. GitHub will give you a link (e.g., `https://arkapd.github.io/ScrapperLinkedin/`).
-5. **Important**: Since your website files are in a "website" folder, your actual live URL will be:
+4. Wait about 1-2 minutes. GitHub will give you a link.
+5. **Your Live Website URL**:
    
-   👉 **https://arkapd.github.io/ScrapperLinkedin/website/**
-
-   (Add `/website/` to the end of the link GitHub gives you).
+   👉 **https://arkapd.github.io/ScrapperLinkedin/**
 
 ### ⚠️ Important Note on Live Hosting
 The **Live Website** will only show the jobs that were in `jobs.json` when you last pushed to GitHub.
