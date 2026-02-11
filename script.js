@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
             renderJobs(allJobs);
         })
         .catch(err => {
-            jobList.innerHTML = '<div class="loading">Error loading jobs. Ensure server is running.</div>';
+            console.error('Data load error:', err);
+            jobList.innerHTML = '<div class="loading error-msg">Updates in progress. Please refresh in 2 minutes.</div>';
         });
 
     // Render Function
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="contact">📞 ${contact}</div>
                 <div class="snippet">${snippet}</div>
                 <div class="actions">
-                    <a href="${link}" target="_blank" class="apply-btn">View on LinkedIn ↗</a>
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="apply-btn">View on LinkedIn ↗</a>
                 </div>
             `;
             jobList.appendChild(card);
