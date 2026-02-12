@@ -254,6 +254,12 @@ select:focus {
 
     .apply-btn {
         width: 100%;
-        text-align: center;
     }
+}
+
+.last-updated {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+    font-style: italic;
 }
