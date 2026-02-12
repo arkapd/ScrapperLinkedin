@@ -6,17 +6,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allJobs = [];
 
-    // Fetch Jobs (Static)
-    fetch('jobs.json')
-        .then(res => res.json())
-        .then(data => {
-            allJobs = data;
-            renderJobs(allJobs);
-        })
-        .catch(err => {
-            console.error('Data load error:', err);
-            jobList.innerHTML = '<div class="loading error-msg">Updates in progress. Please refresh in 2 minutes.</div>';
-        });
+    // Auto-Refresh Logic
+    const REFRESH_INTERVAL = 60000; // 60 seconds
+    const lastUpdatedEl = document.getElementById('lastUpdated');
+
+    function fetchJobs() {
+        const timestamp = new Date().getTime();
+        fetch(`jobs.json?v=${timestamp}`) // Cache busting
+            .then(res => res.json())
+            .then(data => {
+                // simple check: if length changed or first load
+                if (allJobs.length !== data.length || allJobs.length === 0) {
+                    allJobs = data;
+                    renderJobs(allJobs);
+                    filterJobs(); // Re-apply current filters
+                }
+                updateLastUpdatedTime();
+            })
+            .catch(err => {
+                console.error('Data load error:', err);
+                if (allJobs.length === 0) {
+                    jobList.innerHTML = '<div class="loading error-msg">Updates in progress. Please refresh in 2 minutes.</div>';
+                }
+            });
+    }
+
+    function updateLastUpdatedTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (lastUpdatedEl) {
+            lastUpdatedEl.textContent = `Last updated: ${timeString}`;
+        }
+    }
+
+    // Initial Load
+    fetchJobs();
+    setInterval(fetchJobs, REFRESH_INTERVAL);
 
     // Render Function
     function renderJobs(jobs) {
