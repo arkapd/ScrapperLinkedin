@@ -6,6 +6,7 @@ const path = require('path');
 
 // Web Platform Data Store
 const JOBS_FILE = path.join(__dirname, 'jobs.json');
+const ARCHIVE_FILE = path.join(__dirname, 'archive.json');
 
 // Configuration
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
@@ -61,6 +62,21 @@ function loadJobs() {
 
 function saveJobs(jobs) {
     fs.writeFileSync(JOBS_FILE, JSON.stringify(jobs, null, 2));
+}
+
+function loadArchive() {
+    if (fs.existsSync(ARCHIVE_FILE)) {
+        try {
+            return JSON.parse(fs.readFileSync(ARCHIVE_FILE, 'utf8'));
+        } catch (e) {
+            return [];
+        }
+    }
+    return [];
+}
+
+function saveArchive(jobs) {
+    fs.writeFileSync(ARCHIVE_FILE, JSON.stringify(jobs, null, 2));
 }
 
 // Google Sheets Setup
@@ -120,12 +136,16 @@ async function main() {
 
     if (fs.existsSync(TRIGGER_FILE)) fs.unlinkSync(TRIGGER_FILE);
 
-    // Initialize Local Data
-    let localJobs = loadJobs();
-    const existingUrls = await getExistingUrls();
+    // Initialize Data
+    // 1. Load HISTORY (Archive) to know what we have seen before
+    let archiveJobs = loadArchive();
+    const existingUrls = await getExistingUrls(); // From Sheets (optional backup)
 
-    // Add local JSON urls to dedupe set
-    localJobs.forEach(job => existingUrls.add(job.link));
+    // Add Archive urls to dedupe set
+    archiveJobs.forEach(job => existingUrls.add(job.link));
+
+    // 2. Start FRESH for this run (Frontend will only show these)
+    let localJobs = [];
 
     const browser = await puppeteer.launch({
         headless: false,
@@ -251,25 +271,15 @@ async function main() {
                             localJobs.push(jobEntry);
                             existingUrls.add(normalizedUrl);
 
-                            // Save immediately
+                            // Save FRESH Jobs (Frontend Only)
                             saveJobs(localJobs);
 
-                            // Optional: Append to Google Sheets if configured
-                            try {
-                                if (false) { // Disabled for now to focus on local
-                                    await sheets.spreadsheets.values.append({
-                                        spreadsheetId: SPREADSHEET_ID,
-                                        range: 'Sheet1!A:G',
-                                        valueInputOption: 'USER_ENTERED',
-                                        resource: {
-                                            values: [[
-                                                jobEntry.role, jobEntry.location, jobEntry.experience,
-                                                jobEntry.contact, jobEntry.link, jobEntry.snippet, jobEntry.timestamp
-                                            ]]
-                                        },
-                                    });
-                                }
-                            } catch (e) { }
+                            // Save ARCHIVE (History)
+                            // We append immediately to ensure no data loss on crash
+                            archiveJobs.push(jobEntry);
+                            // Sort Archive Descending by Date
+                            archiveJobs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                            saveArchive(archiveJobs);
 
                             domainCount++;
                         }
@@ -281,7 +291,10 @@ async function main() {
         }
     }
 
-    console.log(`\nScraping Cycle Complete. Total Jobs: ${localJobs.length}`);
+    console.log(`\nScraping Cycle Complete.`);
+    console.log(`Fresh Jobs (Website): ${localJobs.length}`);
+    console.log(`Total Handled (Archive): ${archiveJobs.length}`);
+
     console.log('Exiting in 15 seconds to allow automation script to proceed...');
     // Keep browser open briefly then exit
     await new Promise(r => setTimeout(r, 15000));
