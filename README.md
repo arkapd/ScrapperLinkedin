@@ -139,6 +139,19 @@ Then open `http://localhost:3000`.
 
 ---
 
+## 🧠 AI Knowledge Portability (The Skills)
+
+We have created 5 **Portable AI Skills** (packaged as ZIP files in the `/skills` folder). These allow any AI assistant (like Claude) to immediately understand the deep architecture and intelligence of this project without re-explanation.
+
+*   **`data-quality.zip`**: Core filtering logic, fresher detection regex, and spam blocklists.
+*   **`scraper-engine.zip`**: Puppeteer pipeline patterns and anti-detection human simulation logic.
+*   **`frontend-portal.zip`**: UI/UX design tokens, Glassmorphism components, and security patterns.
+*   **`backend-api.zip`**: Future infrastructure plans, database schemas, and auth flows.
+*   **`deploy-ops.zip`**: Server setup guides, health checks, and backup automation.
+
+---
+
+
 ## 🤖 Automation Guide
 
 The ultimate goal is **"Zero Touch"**. You want this running while you sleep.
@@ -156,7 +169,11 @@ We can tell Windows to run `automate.bat` every 12 hours.
 
 Now, every day, your computer will wake up, scrape LinkedIn, and update your website automatically.
 
+> [!NOTE]
+> The automation script (`automate.bat`) will prompt for a security key before running. Ensure your scheduler has permissions to interact with the desktop if run manually, or use the centralized `.env` configuration for headless automation in the future.
+
 ---
+
 
 ## 🛡️ Security & Privacy Features
 
@@ -164,7 +181,14 @@ We have engineered this project to be secure for both you (the owner) and the us
 
 ### For the Owner (You)
 *   **Local Execution**: The scraper runs on *your* IP address. It looks like you are just browsing LinkedIn. This prevents the "Bot Ban" that happens with cloud scrappers.
+*   **Identity Verification**: The scraper (`index.js`) validates the logged-in LinkedIn profile name. It will only run for **"Kaustub hidimba"**.
 *   **GitIgnore**: Your sensitive `user_data` (cookies) and `.env` files are ignored by Git. They are never uploaded to the internet.
+
+### Access Portability
+*   **Gatekeeper Password**: The web portal and the automation script are protected by a security access key.
+*   **Access Key**: `arkad2026`
+*   **System Independence**: You can run this project on any system; simply log into your LinkedIn account and enter your access key.
+
 
 ### For the User (Job Seeker)
 *   **Content Security Policy (CSP)**: We added a strict code to `index.html` that blocks any unauthorized scripts from running. Even if a hacker compromised the database, they couldn't run malicious code on your site.
@@ -178,7 +202,9 @@ We have engineered this project to be secure for both you (the owner) and the us
 *   **v2.0**: Added Website & Google Sheets.
 *   **v3.0**: "Fresher Logic" Update (Strict filtering).
 *   **v4.0**: Security Hardening (CSP) & Automation (Bat script).
-*   **Current**: Fully Documented & Automated Release.
+*   **v5.0**: AI Portability Skills & Account-Locked Security.
+*   **Current**: Fully Documented, Portable & Secured Release.
+
 
 ---
 

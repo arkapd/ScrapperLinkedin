@@ -1,5 +1,25 @@
 @echo off
+setlocal
 cd /d "%~dp0"
+
+:: --- SECURITY ACCESS GATE ---
+set "ACCESS_KEY=arkad2026"
+echo.
+echo ==============================================
+echo [SECURE] LinkedIn Scraper Access Gate
+echo ==============================================
+set /p "entered_pass=Enter Security Access Key: "
+
+if "%entered_pass%" neq "%ACCESS_KEY%" (
+    echo.
+    echo [ERROR] Invalid Access Key. Access Denied.
+    timeout /t 5
+    exit /b 1
+)
+echo.
+echo [SUCCESS] Access Granted. Initializing pipeline...
+echo.
+:: ----------------------------
 
 echo ==============================================
 echo [AUTO] LinkedIn Scraper & Publisher Started

@@ -1,0 +1,11 @@
+# 🔐 Campus Placement Portal - Security Config
+
+# Scraper Security
+AUTHORIZED_USER=arkad
+
+# Web Portal Security
+PORTAL_SECRET=arkad2026
+
+# --- Data Store ---
+SPREADSHEET_ID=your_spreadsheet_id_here
+GOOGLE_APPLICATION_CREDENTIALS=./credentials.json

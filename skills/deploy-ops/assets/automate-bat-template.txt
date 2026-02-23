@@ -1,0 +1,20 @@
+@echo off
+:: 🤖 Automate Scraping & GitHub Push
+:: This template reflects the production automation logic.
+
+echo [INFO] Starting Scraper...
+call node index.js
+
+echo [INFO] Checking for changes in data...
+git status | findstr "jobs.json archive.json" > nul
+if %errorlevel% equ 0 (
+    echo [INFO] Changes detected. Pushing to GitHub...
+    git add jobs.json archive.json
+    git commit -m "Auto-update: Scraped on %date% %time%"
+    git push origin main
+    echo [SUCCESS] Data pushed successfully.
+) else (
+    echo [INFO] No new jobs found. Skipping push.
+)
+
+pause

@@ -1,0 +1,13 @@
+[
+    {
+        "id": "sample_123",
+        "role": "Operations",
+        "location": "Pune",
+        "experience": "Fresher",
+        "contact": "hr@sample.com",
+        "link": "https://www.linkedin.com/feed/update/sample",
+        "snippet": "We are hiring graduates for operations roles...",
+        "timestamp": "2026-02-14T12:00:00.000Z",
+        "queryUsed": "Operations fresher hiring Pune"
+    }
+]

@@ -1,4 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- WEB GATEKEEPER LOCK ---
+    // Simple password protection for the frontend portal.
+    const APP_SECRET = 'arkad2026'; // Public secret for this instance
+    let isAuthorized = localStorage.getItem('board_authorized') === 'true';
+
+    if (!isAuthorized) {
+        const password = prompt('Enter Access Key to view Job Board:');
+        if (password === APP_SECRET) {
+            localStorage.setItem('board_authorized', 'true');
+            isAuthorized = true;
+        } else {
+            document.body.innerHTML = `
+                <div style="background: #0a0e14; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-family: 'Inter', sans-serif;">
+                    <h1 style="color: #00a8ff;">Access Denied</h1>
+                    <p>Invalid key. This portal is for authorized eyes only.</p>
+                    <button onclick="location.reload()" style="background: #00a8ff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; color: white; margin-top: 20px;">Try Again</button>
+                </div>
+            `;
+            return; // Stop execution
+        }
+    }
+    // ---------------------------
+
     const jobList = document.getElementById('jobList');
     const roleFilter = document.getElementById('roleFilter');
     const locationFilter = document.getElementById('locationFilter');

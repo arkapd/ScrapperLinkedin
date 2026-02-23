@@ -4,6 +4,12 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 
+// --- SECURE ACCESS LOCK (Refined) ---
+// Note: OS Username check removed to allow portability.
+// Scraper will now verify the logged-in LinkedIn account name.
+const AUTHORIZED_PROFILE = "Kaustub hidimba";
+// ------------------------------------
+
 // Web Platform Data Store
 const JOBS_FILE = path.join(__dirname, 'jobs.json');
 const ARCHIVE_FILE = path.join(__dirname, 'archive.json');
@@ -107,6 +113,40 @@ async function getExistingUrls() {
     }
 }
 
+async function verifyAccount(page) {
+    try {
+        // Method 1: Check the 'Me' icon alt text in the nav bar
+        await page.waitForSelector('.global-nav__me-photo', { timeout: 10000 });
+        const profileName = await page.evaluate(() => {
+            const img = document.querySelector('.global-nav__me-photo');
+            return img ? img.getAttribute('alt') : '';
+        });
+
+        // The alt text is usually "Photo of Kaustub hidimba"
+        if (profileName && profileName.includes(AUTHORIZED_PROFILE)) {
+            return true;
+        }
+
+        // Method 2: Navigate to 'Me' to be absolute sure
+        await page.goto('https://www.linkedin.com/settings/user-details/', { waitUntil: 'domcontentloaded' });
+        const nameOnSettings = await page.evaluate(() => {
+            return document.body.innerText;
+        });
+
+        // Go back to feed
+        await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded' });
+
+        if (nameOnSettings.includes(AUTHORIZED_PROFILE)) {
+            return true;
+        }
+
+        return false;
+    } catch (e) {
+        console.error('Security Verification Error:', e.message);
+        return false;
+    }
+}
+
 async function appendToSheet(data) {
     if (!SPREADSHEET_ID) {
         return;
@@ -174,6 +214,19 @@ async function main() {
     if (!loggedIn) {
         await waitForTrigger(`Waiting for login... Create "${TRIGGER_FILE}" to proceed.`);
     }
+
+    // --- SECOND LAYER: ACCOUNT LOCK ---
+    console.log('Verifying account identity...');
+    const isOwner = await verifyAccount(page);
+    if (!isOwner) {
+        console.error(`CRITICAL ERROR: Unauthorized Account Detected.`);
+        console.error(`This software is licensed exclusively for the LinkedIn account: "${AUTHORIZED_PROFILE}".`);
+        console.error('Scraper will now self-terminate.');
+        await browser.close();
+        process.exit(1);
+    }
+    console.log('Account verified successfully!');
+    // ----------------------------------
 
     // --- MAIN SCRAPING LOOP ---
     for (const location of LOCATIONS) {

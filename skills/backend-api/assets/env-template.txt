@@ -1,0 +1,19 @@
+# Server Config
+PORT=3000
+DATABASE_URL=postgres://user:password@localhost:5432/campus_portal
+
+# Security
+JWT_SECRET=super_secret_key_change_me
+ALLOWED_ORIGINS=https://arkapd.github.io
+
+# External APIs
+SPREADSHEET_ID=your_google_sheet_id
+GOOGLE_CREDS_PATH=./config/google_credentials.json
+
+# Email (Resend/Brevo)
+EMAIL_API_KEY=your_email_api_key
+FROM_EMAIL=hr@campusportal.com
+
+# Billing (Razorpay)
+RAZORPAY_KEY=rzp_test_...
+RAZORPAY_SECRET=...

@@ -1,0 +1,18 @@
+[
+  {
+    "text": "We are hiring freshers for Java Developer role in Pune. Batch 2024 only. Email: hr@techcorp.com",
+    "expected": "Accept (Fresher)"
+  },
+  {
+    "text": "Looking for a Senior Project Manager with 12 years of experience in SCM. Location: Bangalore.",
+    "expected": "Reject (Senior)"
+  },
+  {
+    "text": "URGENT HIRING! Work from home! Earn 50k daily! No investment! Call 1234567890",
+    "expected": "Reject (Spam)"
+  },
+  {
+    "text": "HR Intern required for Delhi office. 0-6 months experience. Apply at careers@startup.co.in",
+    "expected": "Accept (Intern)"
+  }
+]
